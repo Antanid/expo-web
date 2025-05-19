@@ -5,28 +5,28 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 
-const LOCATIONS = [
+const Index = [
   { id: '1', city: 'San Francisco', temp: '18°C', weather: 'Cloudy' },
   { id: '2', city: 'New York', temp: '22°C', weather: 'Sunny' },
   { id: '3', city: 'Tokyo', temp: '25°C', weather: 'Rainy' },
   { id: '4', city: 'Paris', temp: '20°C', weather: 'Windy' },
 ]
 
-export default function HomeScreen() {
+export default function Locations() {
   const { control, watch } = useForm({ defaultValues: { search: '' } })
   const search = watch('search').toLowerCase()
   const router = useRouter()
 
-  const filteredLocations = LOCATIONS.filter(loc => loc.city.toLowerCase().includes(search))
+  const filteredLocations = Index.filter(loc => loc.city.toLowerCase().includes(search))
 
   return (
-    <SafeAreaView className="flex-1 bg-white pt-6">
+    <SafeAreaView className="flex-1 bg-white">
       <FormInput
         control={control}
         name="search"
         inputProps={{
           placeholder: 'Search city...',
-          className: 'bg-gray-100 rounded-xl px-4 py-3 mx-4 text-base text-black',
+          className: 'bg-gray-100 rounded-xl px-4 py-3 mx-4 text-base text-black mt-6 ',
           placeholderTextColor: '#888',
         }}
       />
