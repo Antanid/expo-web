@@ -1,11 +1,14 @@
 import { SafeAreaView, View, Text, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { useLocalSearchParams } from "expo-router";
 
 export default function WeatherScreen() {
+  const { city } = useLocalSearchParams();
+
   return (
     <SafeAreaView className="flex-1 bg-blue-50 p-4">
       <View className="my-6 flex justify-center items-center">
-        <Text className="text-xl font-semibold text-gray-800">France</Text>
+        <Text className="text-xl font-semibold text-gray-800">{city}</Text>
         <Text className="text-5xl font-bold text-blue-600 mt-2">22°C</Text>
         <Text className="text-md text-gray-600">Sunny</Text>
       </View>
