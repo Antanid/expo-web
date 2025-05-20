@@ -22,7 +22,7 @@ export default function RootLayout() {
       <GestureHandlerRootView>
         <ThemeProvider value={DefaultTheme}>
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="locations" />
+            <Stack.Screen name="index" />
             <Stack.Screen name="forecast" />
             <Stack.Screen name="+not-found" />
           </Stack>

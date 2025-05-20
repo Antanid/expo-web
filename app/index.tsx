@@ -1,4 +1,5 @@
 import { FormInput } from '@/components/form'
+import { CityWeatherItem } from '@/layout/weatherItem'
 import { useDebounce } from '@/utils/useDebounce'
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
@@ -40,25 +41,23 @@ export default function Locations() {
           <Button title="Clear" onPress={() => setValue('search', '')} />
         </View>
       ) : (
-        <FlashList
-          estimatedItemSize={104}
-          data={filteredLocations}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-          className="mt-6"
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => router.push(`/forecast?city=${item.city}`)}
-              className="mx-4 mb-4 rounded-2xl bg-blue-100 p-4"
-            >
-              <Text className="text-xl font-semibold text-blue-900">{item.city}</Text>
-              <View className="mt-1 flex-row justify-between">
-                <Text className="text-base text-blue-800">{item.weather}</Text>
-                <Text className="text-base text-blue-800">{item.temp}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+        <View className="flex-1">
+          <FlashList
+            estimatedItemSize={108}
+            data={filteredLocations}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+            className="mt-6"
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => router.push(`/forecast?city=${item.city}`)}
+                className="mx-4 mb-4 rounded-2xl bg-blue-100 p-4"
+              >
+                <CityWeatherItem city={item.city} />
+              </TouchableOpacity>
+            )}
+          />
+        </View>
       )}
     </SafeAreaView>
   )
