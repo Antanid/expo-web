@@ -43,7 +43,7 @@ export default function Locations() {
       ) : (
         <View className="flex-1">
           <FlashList
-            estimatedItemSize={108}
+            estimatedItemSize={88}
             data={filteredLocations}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}

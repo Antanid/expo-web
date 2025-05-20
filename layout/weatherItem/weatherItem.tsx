@@ -10,7 +10,7 @@ export const CityWeatherItem = ({ city }: { city: string }) => {
   if (!weather) return null
 
   return (
-    <View className="min-h-[60px]">
+    <View className="h-[100px]">
       <Text className="text-xl font-semibold text-blue-900">{city}</Text>
       <View className="mt-1 flex-row justify-between">
         <Text className="text-base text-blue-800">{weather.current.condition.text}</Text>
