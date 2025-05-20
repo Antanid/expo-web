@@ -1,12 +1,12 @@
 import { FormInput } from '@/components/form'
 import { CityWeatherItem } from '@/layout/weatherItem'
 import { useDebounce } from '@/utils/useDebounce'
-import { FlashList } from '@shopify/flash-list'
 import { City } from 'country-state-city'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ActivityIndicator, Button, SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 
 type CityType = {
   id: string
@@ -73,8 +73,7 @@ export default function Locations() {
         </View>
       ) : (
         <View className="flex-1">
-          <FlashList
-            estimatedItemSize={120}
+          <FlatList
             data={filteredLocations}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator

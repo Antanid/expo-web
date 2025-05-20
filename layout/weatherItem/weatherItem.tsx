@@ -17,7 +17,7 @@ export const CityWeatherItem: FC<CityWeatherItemProps> = ({ city }) => {
     )
   }
 
-  if (error || !weather) {
+  if (error) {
     return (
       <View className="items-center justify-center px-4 py-6">
         <Text className="text-center text-base text-red-600">
@@ -25,6 +25,10 @@ export const CityWeatherItem: FC<CityWeatherItemProps> = ({ city }) => {
         </Text>
       </View>
     )
+  }
+
+  if (!weather) {
+    return null
   }
 
   return (
