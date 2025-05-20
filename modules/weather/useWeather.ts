@@ -1,4 +1,5 @@
 import { WeatherData } from '@/modules/weather/type'
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 const API_KEY = '91e454b70aa349daa5783549252005'
@@ -16,24 +17,24 @@ export const useWeather = (city: string) => {
         setLoading(true)
         setError(null)
 
-        // Request weather by city name (7-day forecast)
-        const res = await fetch(
-          `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(city)}&days=7&aqi=no&alerts=no`,
-        )
+        const response = await axios.get('https://api.weatherapi.com/v1/forecast.json', {
+          params: {
+            key: API_KEY,
+            q: city,
+            days: 7,
+            aqi: 'no',
+            alerts: 'no',
+          },
+        })
 
-        if (!res.ok) {
-          const errData = await res.json()
-          throw new Error(errData.error?.message || 'Error fetching weather data')
-        }
-
-        const data = await res.json()
+        const data = response.data
 
         setWeather({
           current: data.current,
-          forecast: data.forecast.forecastday, // array of forecast days
+          forecast: data.forecast.forecastday,
         })
       } catch (err: any) {
-        setError(err.message || 'Error fetching weather data')
+        setError(err.response?.data?.error?.message || err.message || 'Error fetching weather data')
       } finally {
         setTimeout(() => setLoading(false), 500)
       }
