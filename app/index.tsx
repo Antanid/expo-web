@@ -74,15 +74,15 @@ export default function Locations() {
       ) : (
         <View className="flex-1">
           <FlashList
-            estimatedItemSize={88}
+            estimatedItemSize={120}
             data={filteredLocations}
             keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator
             className="mt-6"
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => router.push(`/forecast?city=${item.city}`)}
-                className="mx-4 mb-4 rounded-2xl bg-blue-100 p-4"
+                className="mx-4 mb-4 h-[90px] justify-center rounded-2xl bg-blue-100 p-4"
               >
                 <CityWeatherItem city={item.city} />
               </TouchableOpacity>
