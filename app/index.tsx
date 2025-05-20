@@ -2,17 +2,17 @@ import { FormInput } from '@/components/form'
 import { CityWeatherItem } from '@/layout/weatherItem'
 import { useDebounce } from '@/utils/useDebounce'
 import { FlashList } from '@shopify/flash-list'
+import { City } from 'country-state-city'
 import { useRouter } from 'expo-router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Button, SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 
-const Index = [
-  { id: '1', city: 'San Francisco', temp: '18°C', weather: 'Cloudy' },
-  { id: '2', city: 'New York', temp: '22°C', weather: 'Sunny' },
-  { id: '3', city: 'Tokyo', temp: '25°C', weather: 'Rainy' },
-  { id: '4', city: 'Paris', temp: '20°C', weather: 'Windy' },
-]
+type CityType = {
+  id: string
+  city: string
+  countryCode: string
+}
 
 export default function Locations() {
   const { control, watch, setValue } = useForm({ defaultValues: { search: '' } })
@@ -20,8 +20,34 @@ export default function Locations() {
   const router = useRouter()
 
   const debouncedSearch = useDebounce(search, 500)
+  const [cities, setCities] = useState<CityType[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const filteredLocations = Index.filter(loc => loc.city.toLowerCase().includes(debouncedSearch))
+  useEffect(() => {
+    const loadCities = async () => {
+      try {
+        const usCities = City.getCitiesOfCountry('US')
+        if (usCities) {
+          const formattedCities: CityType[] = usCities.map(city => ({
+            id: `${city.name}-${city.stateCode}-US`,
+            city: city.name,
+            countryCode: 'US',
+          }))
+          setCities(formattedCities)
+        }
+      } catch (error) {
+        console.error('Error loading cities:', error)
+      } finally {
+        setTimeout(() => {
+          setLoading(false)
+        }, 500)
+      }
+    }
+
+    loadCities()
+  }, [])
+
+  const filteredLocations = cities.filter(loc => loc.city.toLowerCase().includes(debouncedSearch))
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -29,13 +55,18 @@ export default function Locations() {
         control={control}
         name="search"
         inputProps={{
-          placeholder: 'Search city...',
-          className: 'bg-gray-100 rounded-xl px-4 py-3 mx-4 text-base text-black mt-6 ',
+          placeholder: 'Search US city...',
+          className: 'bg-gray-100 rounded-xl px-4 py-3 mx-4 text-base text-black mt-6',
           placeholderTextColor: '#888',
         }}
       />
 
-      {filteredLocations.length === 0 ? (
+      {loading ? (
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" color="#000" />
+          <Text className="mt-4 text-gray-500">Loading cities...</Text>
+        </View>
+      ) : filteredLocations.length === 0 ? (
         <View className="flex-1 items-center justify-center">
           <Text className="text-lg text-gray-500">No results found</Text>
           <Button title="Clear" onPress={() => setValue('search', '')} />

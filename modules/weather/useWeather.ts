@@ -35,7 +35,7 @@ export const useWeather = (city: string) => {
       } catch (err: any) {
         setError(err.message || 'Error fetching weather data')
       } finally {
-        setLoading(false)
+        setTimeout(() => setLoading(false), 500)
       }
     }
 
