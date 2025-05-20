@@ -9,13 +9,24 @@ type CityWeatherItemProps = {
 export const CityWeatherItem: FC<CityWeatherItemProps> = ({ city }) => {
   const { weather, loading, error } = useWeather(city)
 
-  if (loading || !weather || error) {
+  if (loading) {
     return (
       <View className="flex items-center justify-center bg-red-500">
         <ActivityIndicator size="small" color="#000" />
       </View>
     )
   }
+
+  if (error || !weather) {
+    return (
+      <View className="items-center justify-center px-4 py-6">
+        <Text className="text-center text-base text-red-600">
+          Sorry, we couldn&apos;t fetch the weather for this city. 😞
+        </Text>
+      </View>
+    )
+  }
+
   return (
     <View className="justify-center">
       <View className="justify-between">
