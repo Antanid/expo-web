@@ -2,7 +2,7 @@ import { WeatherData } from '@/modules/weather/type'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-const API_KEY = '91e454b70aa349daa5783549252005'
+const API_KEY = 'ffb804f757bb4d19b66121033252205'
 
 export const useWeather = (city: string) => {
   const [weather, setWeather] = useState<WeatherData | null>(null)
